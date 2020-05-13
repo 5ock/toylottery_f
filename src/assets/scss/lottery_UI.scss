@@ -1,0 +1,8 @@
+.carzy_toggler {
+    display: block;
+}
+@media (min-width: 768px) {
+    .carzy_toggler {
+        display: none;
+    }
+}
