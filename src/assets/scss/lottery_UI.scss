@@ -1,8 +1,14 @@
 .carzy_toggler {
     display: block;
 }
+.l-w {
+    width: 110px;
+}
 @media (min-width: 768px) {
     .carzy_toggler {
+        display: none;
+    }
+    .carzy_navbar {
         display: none;
     }
 }

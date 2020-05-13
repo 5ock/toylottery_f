@@ -1,9 +1,10 @@
 <template>
   <div class="toysLottery_add">
+    <h1 class="h2">Add Lotterys</h1>
     <form class="form_lotteryAdd">
       <div class="form-group">
-        <label for="exampleFormControlInput1">Email address</label>
-        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+        <label for="exampleFormControlInput1">Toy Item</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="ex: headlockstudio">
       </div>
       <div class="form-group">
         <label for="exampleFormControlSelect1">Example select</label>
