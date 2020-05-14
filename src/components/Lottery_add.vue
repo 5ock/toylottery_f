@@ -1,35 +1,72 @@
 <template>
   <div class="toysLottery_add">
-    <h1 class="h2">Add Lotterys</h1>
+    <h1 class="h2">Add Item</h1>
     <form class="form_lotteryAdd">
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Toy Item</label>
-        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="ex: headlockstudio">
+      <div class="form-group t-maxWidth">
+        <label>商品名稱 :</label>
+        <input type="text" class="form-control" placeholder="ex: headlockstudio" v-model="data_item">
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlSelect1">Example select</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
+      <div class="form-group t-maxWidth">
+        <label>日期 :</label>
+        <div style="display:flex">
+          <div style="max-width: 150px; flex:1; margin-right:75px">
+          <select class="custom-select" v-model="data_month">
+            <option value="99">Month</option>
+            <option v-for="item in month" :value="item">{{ item }}</option>
+          </select>
+          </div>
+          <div style="max-width: 150px;flex:1">
+          <select class="custom-select" v-model="data_day">
+            <option value="99">Day</option>
+            <option v-for="(item, index) in days" :value="index+1">{{ index+1 }}</option>
+          </select>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlSelect2">Example multiple select</label>
-        <select multiple class="form-control" id="exampleFormControlSelect2">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
+      <div class="form-group t-maxWidth">
+        <label>時間 :</label>
+        <div style="display:flex">
+          <div style="max-width: 150px; flex:1; margin-right:75px">
+          <select class="custom-select" v-model="data_hour">
+            <option value="99">Hour</option>
+            <option v-for="(item, index) in hour" :value="index">{{ index }}</option>
+          </select>
+          </div>
+          <div style="max-width: 150px;flex:1">
+          <select class="custom-select" v-model="data_min">
+            <option value="99">Min</option>
+            <option v-for="(item, index) in min" :value="index">{{ index }}</option>
+          </select>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlTextarea1">備註: </label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+      <div class="form-group t-maxWidth">
+        <label>價格 :</label>
+        <input type="text" class="form-control" placeholder="ex: 2000台幣" v-model="data_price">
       </div>
+      <div class="form-group t-maxWidth">
+        <label>網址 :</label>
+        <input type="text" class="form-control" v-model="data_url">
+      </div>
+      <div class="form-group t-maxWidth">
+        <label style="width:110px;">抽選 or 直購 :</label>
+        <label for="Lottery" class="radioStyle" :class="{ isSelect: data_isLottery==1 }">抽選</label>
+        <input id="Lottery" type="radio" value="1" v-model="data_isLottery" style="display:none">
+        <label for="purchase" class="radioStyle" :class="{ isSelect: data_isLottery==0 }">直購</label>
+        <input id="purchase" type="radio" value="0" v-model="data_isLottery" style="display:none">
+      </div>
+      <div class="form-group t-maxWidth">
+        <label style="width:110px;">是否通知 :</label>
+        <label for="Yes" class="radioStyle" :class="{ isSelect: data_notification=='1' }">要</label>
+        <input id="Yes" type="radio" value="1" v-model="data_notification" style="display:none">
+        <label for="No" class="radioStyle" :class="{ isSelect: data_notification=='0' }">不要</label>
+        <input id="No" type="radio" value="0" v-model="data_notification" style="display:none">
+      </div>
+      <div class="form-group t-maxWidth">
+        <label for="exampleFormControlTextarea1">備註:</label>
+        <textarea class="form-control" rows="3" v-model="data_remarks"></textarea>
+      </div>
+      <button type="button" class="btn btn-info" @click="setData">儲存</button>
     </form>
   </div>
 </template>
@@ -39,6 +76,71 @@ export default {
   name: 'toysLottery_add',
   data () {
     return {
+      data_remarks: "",
+      data_url: "",
+      data_price: "",
+      data_item: "",
+      data_isLottery: 1,
+      data_notification: 1,
+      data_month: '99',
+      data_day: '99',
+      data_hour: '99',
+      data_min: '99',
+      month: [1,2,3,4,5,6,7,8,9,10,11,12],
+      hour: new Array(24),
+      min: new Array(60),
+    }
+  },
+  mounted() {
+    this.resetData();
+  },
+  methods: {
+    resetData() {
+      this.data_remarks = "";
+      this.data_url = "";
+      this.data_price = "";
+      this.data_item = "";
+      this.data_month = '99';
+      this.data_day = '99';
+      this.data_hour = '99';
+      this.data_min = '99';
+      this.data_isLottery = 1;
+      this.data_notification = 1;
+    },
+    addZero(number) {
+      if (parseInt(number) < 10) {
+        number = '0'+number;
+      }
+      return number;
+    },
+    setData() {
+      const me = this;
+      if(me.data_month == '99' || me.data_day == '99' || me.data_min == '99' || me.data_hour == '99') {
+        alert('請輸入月, 日, 時, 分');
+      }
+      let obj = {
+        item: this.data_item,
+        data: this.addZero(me.data_month) + this.addZero(me.data_day),
+        time: this.addZero(me.data_hour) + this.addZero(me.data_min),
+        price: this.data_price,
+        url: this.data_url,
+        isLottery: this.data_isLottery,
+        notification: this.data_notification,
+        remarks: this.data_remarks
+      }
+
+      console.log(obj);
+    }
+  },
+  computed: {
+    days() {
+      if(this.data_month == '2') {
+        return new Array(28);
+      } else if(this.data_month == '4' || this.data_month == '6' || this.data_month == '9' || this.data_month == '12') {
+        return new Array(30);
+      } else {
+        return new Array(31);
+      }
     }
   }
 }

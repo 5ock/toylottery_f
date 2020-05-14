@@ -18,30 +18,34 @@
       <div class="navbar-collapse carzy_navbar" v-show="isShow_m_navbar">
         <ul class="navbar-nav mt-2">
           <li class="nav-item" style="padding-left:20px;">
-            <a class="nav-link l-w" href="#" @click="changePage('/lottery/add')">Add Lotterys</a>
+              <router-link class="nav-link active" to="/lottery/add" @click.native='isShow_m_navbar = !isShow_m_navbar;'>Add Lotterys</router-link>
+            <!-- <a class="nav-link l-w" href="#" @click.prevent="changePage('/lottery/add')">Add Lotterys</a> -->
           </li>
           <li class="nav-item" style="padding-left:20px;">
-            <a class="nav-link l-w" href="#" @click="changePage('/lottery/info')">Information</a>
+              <router-link class="nav-link active" to="/lottery" @click.native='isShow_m_navbar = !isShow_m_navbar;'>Information</router-link>
+            <!-- <a class="nav-link l-w" href="#" @click.prevent="changePage('/lottery')">Information</a> -->
           </li>
         </ul>
       </div>
     </nav>
     <div class="container-fluid">
       <div class="row">
-        <nav class="col-md-3 d-none d-md-block bg-light sidebar">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link active" href="#" @click="changePage('/lottery/add')">Add Lotterys</a>
+                <!-- <a class="nav-link active" href="#" @click="changePage('/lottery/add')">Add Lotterys</a> -->
+                <router-link class="nav-link active" to="/lottery/add">Add Lotterys</router-link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" @click="changePage('/lottery/info')">Information</a>
+                <router-link class="nav-link active" to="/lottery">Information</router-link>
+                <!-- <a class="nav-link" href="#" @click="changePage('/lottery')">Information</a> -->
               </li>
             </ul>
           </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 main">
+        <main role="main" class="col-md-9 col-lg-9 main">
           <router-view class="my-4 w-100"></router-view>
         </main>
       </div>
@@ -59,10 +63,14 @@ export default {
     }
   },
   methods: {
-    changePage(path) {
-      this.isShow_m_navbar = !this.isShow_m_navbar;
-      this.$router.push(path).catch(err => {});
-    }
+    // changePage(path) {
+    //   this.isShow_m_navbar = !this.isShow_m_navbar;
+    //   if(this.$route.path == path) {
+
+    //   } else {
+    //     this.$router.push(path);
+    //   }
+    // }
   }
 }
 </script>

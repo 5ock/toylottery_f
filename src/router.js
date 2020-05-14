@@ -22,25 +22,24 @@ export default new VueRouter({
             component: LoginCreate
         },
         {
-            name: 'Lottery',
             path: '/lottery',
             component: Lottery,
             children: [
                 {
-                    name: 'lottery_add',
+                    name: 'lottery',
                     path: '',
-                    component: lottery_add
-                },
-                {
-                    name: 'lottery_add',
-                    path: 'add',
-                    component: lottery_add
-                },
-                {
-                    name: 'lottery_info',
-                    path: 'info',
                     component: lottery_info
-                }
+                },
+                {
+                    path: 'add',
+                    name: 'add',
+                    component: lottery_add
+                },
+                // {
+                //     name: 'lottery_info',
+                //     path: 'info',
+                //     component: lottery_info
+                // }
             ]
         },
         {
