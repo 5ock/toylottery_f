@@ -1,6 +1,6 @@
 <template>
   <div class="toysLottery_add">
-    <h1 class="h2">Add Item</h1>
+    <h1 class="h2 mb-4">Add Item</h1>
     <form class="form_lotteryAdd">
       <div class="form-group t-maxWidth">
         <label>商品名稱 :</label>
@@ -13,7 +13,7 @@
           <select class="custom-select" v-model="data_month">
             <option value="99">Month</option>
             <option v-for="item in month" :value="item">{{ item }}</option>
-          </select>
+          </select>月
           </div>
           <div style="max-width: 150px;flex:1">
           <select class="custom-select" v-model="data_day">
@@ -57,10 +57,10 @@
       </div>
       <div class="form-group t-maxWidth">
         <label style="width:110px;">是否通知 :</label>
-        <label for="Yes" class="radioStyle" :class="{ isSelect: data_notification=='1' }">要</label>
-        <input id="Yes" type="radio" value="1" v-model="data_notification" style="display:none">
-        <label for="No" class="radioStyle" :class="{ isSelect: data_notification=='0' }">不要</label>
-        <input id="No" type="radio" value="0" v-model="data_notification" style="display:none">
+        <label for="Yes" class="radioStyle" :class="{ isSelect: data_notify=='1' }">要</label>
+        <input id="Yes" type="radio" value="1" v-model="data_notify" style="display:none">
+        <label for="No" class="radioStyle" :class="{ isSelect: data_notify=='0' }">不要</label>
+        <input id="No" type="radio" value="0" v-model="data_notify" style="display:none">
       </div>
       <div class="form-group t-maxWidth">
         <label for="exampleFormControlTextarea1">備註:</label>
@@ -81,7 +81,7 @@ export default {
       data_price: "",
       data_item: "",
       data_isLottery: 1,
-      data_notification: 1,
+      data_notify: 1,
       data_month: '99',
       data_day: '99',
       data_hour: '99',
@@ -105,13 +105,13 @@ export default {
       this.data_hour = '99';
       this.data_min = '99';
       this.data_isLottery = 1;
-      this.data_notification = 1;
+      this.data_notify = 1;
     },
     addZero(number) {
       if (parseInt(number) < 10) {
         number = '0'+number;
       }
-      return number;
+      return String(number);
     },
     setData() {
       const me = this;
@@ -125,11 +125,16 @@ export default {
         price: this.data_price,
         url: this.data_url,
         isLottery: this.data_isLottery,
-        notification: this.data_notification,
+        notification: this.data_notify,
         remarks: this.data_remarks
       }
 
       console.log(obj);
+      me.axios.post('/lotteryData', obj).then((result)=>{
+        if(result.data.response == 'ok') {
+          me.resetData();
+        }
+      });
     }
   },
   computed: {

@@ -16,6 +16,16 @@ module.exports = {
         ws: true,
         changeOrigin: true,
       },
+      '/logout': {
+        target: 'http://localhost:5000',
+        ws: true,
+        changeOrigin: true,
+      },
+      '/lotteryData': {
+        target: 'http://localhost:5000',
+        ws: true,
+        changeOrigin: true,
+      },
     },
 
     // Various Dev Server settings

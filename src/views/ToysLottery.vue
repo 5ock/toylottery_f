@@ -3,15 +3,15 @@
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
       <!-- m_toggler -->
       <button class="navbar-toggler carzy_toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation"
-        @click="isShow_m_navbar = !isShow_m_navbar">
+        @click.prevent="isShow_m_navbar = !isShow_m_navbar">
       <span class="navbar-toggler-icon"></span>
       </button>
       <!-- title -->
-      <a class="navbar-brand" href="#">Toys Lotterys System</a>
+      <a class="navbar-brand">Toys Lotterys System</a>
       <!-- sign out -->
       <ul class="navbar-nav px-2">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">Sign out</a>
+          <a class="nav-link" href="#" @click="logout">Sign out</a>
         </li>
       </ul>
       <!-- m_navbar -->
@@ -19,11 +19,9 @@
         <ul class="navbar-nav mt-2">
           <li class="nav-item" style="padding-left:20px;">
               <router-link class="nav-link active" to="/lottery/add" @click.native='isShow_m_navbar = !isShow_m_navbar;'>Add Lotterys</router-link>
-            <!-- <a class="nav-link l-w" href="#" @click.prevent="changePage('/lottery/add')">Add Lotterys</a> -->
           </li>
           <li class="nav-item" style="padding-left:20px;">
               <router-link class="nav-link active" to="/lottery" @click.native='isShow_m_navbar = !isShow_m_navbar;'>Information</router-link>
-            <!-- <a class="nav-link l-w" href="#" @click.prevent="changePage('/lottery')">Information</a> -->
           </li>
         </ul>
       </div>
@@ -63,14 +61,13 @@ export default {
     }
   },
   methods: {
-    // changePage(path) {
-    //   this.isShow_m_navbar = !this.isShow_m_navbar;
-    //   if(this.$route.path == path) {
-
-    //   } else {
-    //     this.$router.push(path);
-    //   }
-    // }
+    logout() {
+      const me = this;
+      
+      me.axios.post('/logout').then((result) => {
+        me.$router.push('/login');
+      })
+    }
   }
 }
 </script>
