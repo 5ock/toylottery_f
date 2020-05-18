@@ -1,9 +1,9 @@
 <template>
   <div class="Login">
-    <form class="form-signin">
+    <form class="form-signin" @submit.prevent="login">
       <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
       <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" v-model="login_password">
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       <p class="mt-5 mb-3 text-muted">Copyright &copy; 2020 by 5ockdart</p>
     </form>
@@ -11,10 +11,29 @@
 </template>
 
 <script>
+import { sha256, sha224 } from 'js-sha256';
 export default {
   name: 'Login',
   data () {
     return {
+      login_password: '',
+    }
+  },
+  mounted() {
+    sessionStorage.clear();
+  },
+  methods: {
+    login() {
+      const me = this;
+      const data = {password: sha256(me.login_password)};
+      me.axios.post('login', data).then((result)=> {
+        if(result.data.response == 'ok') {
+          sessionStorage.role = 'admin';
+          me.$router.push('/lottery');
+        } else {
+          alert('error');
+        }
+      });
     }
   }
 }
