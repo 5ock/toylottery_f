@@ -23,6 +23,73 @@
   background-color: #17a2b8;
   color: #fff;
 }
+.toysLottery_card {
+  display:flex;
+  flex-wrap: wrap;
+  // card header style
+  .card-harder-blockposition {
+    padding: 5px 1.25rem;
+    position:relative;
+  }
+  .card-header-text {
+    max-width: 264px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    
+  }
+  // card Item icon
+  .icon-edit {
+    position: absolute;
+    top:6px;
+    right:6px;
+    width:24px;
+    height: 24px;
+    background: url('./assets/images/ic_edit.png') no-repeat;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  // lottery remid block
+  .lottery-remind-block {
+    position: absolute;
+    right: 6px;
+
+  }
+  .lottery-link {
+    color: #0056b3;
+    &:hover {
+      cursor: pointer;
+      text-decoration:underline;
+    }
+  }
+  .icon-notify{
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    opacity: 0.7;
+  }
+  .icon-notify.On{
+    background: url('./assets/images/ic_notifications.png') no-repeat;
+  }
+  .icon-notify.Off{
+    background: url('./assets/images/ic_notifications_off.png') no-repeat;
+  }
+  // card text lottery
+  .text-lottery {
+    display: inline-block;
+    text-align:center;
+    vertical-align: middle;
+    font-size:20px;
+    line-height: 24px;
+    width: 24px;
+    height: 24px;
+    color: red;
+    font-family: 'Arial Black';
+  }
+}
 @media (min-width: 768px) {
     .carzy_toggler {
         display: none;

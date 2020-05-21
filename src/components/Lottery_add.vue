@@ -9,11 +9,17 @@
       <div class="form-group t-maxWidth">
         <label>日期 :</label>
         <div style="display:flex">
-          <div style="max-width: 150px; flex:1; margin-right:75px">
+          <div style="max-width: 150px; flex:1; margin-right:20px">
+          <select class="custom-select" v-model="data_year">
+            <option value="99">Year</option>
+            <option v-for="item in years" :value="item">{{ item }}</option>
+          </select>
+          </div>
+          <div style="max-width: 150px; flex:1; margin-right:20px">
           <select class="custom-select" v-model="data_month">
             <option value="99">Month</option>
             <option v-for="item in month" :value="item">{{ item }}</option>
-          </select>月
+          </select>
           </div>
           <div style="max-width: 150px;flex:1">
           <select class="custom-select" v-model="data_day">
@@ -26,7 +32,7 @@
       <div class="form-group t-maxWidth">
         <label>時間 :</label>
         <div style="display:flex">
-          <div style="max-width: 150px; flex:1; margin-right:75px">
+          <div style="max-width: 150px; flex:1; margin-right:20px">
           <select class="custom-select" v-model="data_hour">
             <option value="99">Hour</option>
             <option v-for="(item, index) in hour" :value="index">{{ index }}</option>
@@ -82,10 +88,12 @@ export default {
       data_item: "",
       data_isLottery: 1,
       data_notify: 1,
+      data_year: '99',
       data_month: '99',
       data_day: '99',
       data_hour: '99',
       data_min: '99',
+      years: [],
       month: [1,2,3,4,5,6,7,8,9,10,11,12],
       hour: new Array(24),
       min: new Array(60),
@@ -93,13 +101,23 @@ export default {
   },
   mounted() {
     this.resetData();
+    this.getYears();
   },
   methods: {
+    getYears() {
+      let date = new Date();
+      let currentYear = date.getFullYear();
+      for(let i=0; i<5; i++) {
+        let year = parseInt(currentYear) + i;
+        this.years.push(year);
+      }
+    },
     resetData() {
       this.data_remarks = "";
       this.data_url = "";
       this.data_price = "";
       this.data_item = "";
+      this.data_year = '99';
       this.data_month = '99';
       this.data_day = '99';
       this.data_hour = '99';
@@ -115,13 +133,20 @@ export default {
     },
     setData() {
       const me = this;
-      if(me.data_month == '99' || me.data_day == '99' || me.data_min == '99' || me.data_hour == '99') {
-        alert('請輸入月, 日, 時, 分');
-      }
+      // if(me.data_month == '99' || me.data_month == '99' || me.data_day == '99' || me.data_min == '99' || me.data_hour == '99') {
+      //   alert('請輸入月, 日, 時, 分');
+      // }
       let obj = {
         item: this.data_item,
-        data: this.addZero(me.data_month) + this.addZero(me.data_day),
-        time: this.addZero(me.data_hour) + this.addZero(me.data_min),
+        date: {
+          year: this.data_year,
+          month: this.addZero(me.data_month),
+          day: this.addZero(me.data_day),
+        },
+        time: {
+          hour: this.addZero(me.data_hour),
+          min: this.addZero(me.data_min)
+        },
         price: this.data_price,
         url: this.data_url,
         isLottery: this.data_isLottery,

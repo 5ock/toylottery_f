@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import axios from 'axios';
 
 // import HelloWorld from './components/HelloWorld'
 import Login from './views/Login'
@@ -9,7 +10,7 @@ import lottery_add from './components/Lottery_add'
 import lottery_info from './components/Lottery_Info'
 
 Vue.use(VueRouter);
-export default new VueRouter({
+const router = new VueRouter({
     routes: [
         {
             name: 'login',
@@ -28,12 +29,14 @@ export default new VueRouter({
                 {
                     name: 'lottery',
                     path: '',
-                    component: lottery_info
+                    component: lottery_info,
+                    meta: { requiresAuth: false}
                 },
                 {
                     path: 'add',
                     name: 'add',
-                    component: lottery_add
+                    component: lottery_add,
+                    meta: { requiresAuth: false}
                 },
                 // {
                 //     name: 'lottery_info',
@@ -45,8 +48,25 @@ export default new VueRouter({
         {
             name: 'test',
             path: '/test',
-            component: lottery_add
+            component: lottery_add,
+            meta: { requiresAuth: false}
         },
 
     ]
 });
+
+router.beforeEach((to, from, next) => {
+    if(to.matched.some(res => res.meta.requiresAuth)) {
+        axios.post('user/checklogin').then(result=>{
+            if(result.data.response == 'ok') {
+                next();
+            } else {
+                next({ path: 'login' });
+            }
+        });
+    } else {
+        next();
+    }
+});
+
+export default router;

@@ -26,7 +26,7 @@ export default {
     login() {
       const me = this;
       const data = {password: sha256(me.login_password)};
-      me.axios.post('login', data).then((result)=> {
+      me.axios.post('/user/login', data).then((result)=> {
         if(result.data.response == 'ok') {
           sessionStorage.role = 'admin';
           me.$router.push('/lottery');

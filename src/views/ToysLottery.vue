@@ -64,7 +64,7 @@ export default {
     logout() {
       const me = this;
       
-      me.axios.post('/logout').then((result) => {
+      me.axios.post('/user/logout').then((result) => {
         me.$router.push('/login');
       })
     }

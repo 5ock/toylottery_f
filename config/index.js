@@ -5,22 +5,30 @@
 const path = require('path')
 
 module.exports = {
+  // devServer: {
+  //   proxy: 'http://127.0.0.1:5000/',
+  // },
   dev: {
 
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/login': {
+      '/user': {
         target: 'http://localhost:5000',
         ws: true,
         changeOrigin: true,
       },
-      '/logout': {
-        target: 'http://localhost:5000',
-        ws: true,
-        changeOrigin: true,
-      },
+      // '/login': {
+      //   target: 'http://localhost:5000',
+      //   ws: true,
+      //   changeOrigin: true,
+      // },
+      // '/logout': {
+      //   target: 'http://localhost:5000',
+      //   ws: true,
+      //   changeOrigin: true,
+      // },
       '/lotteryData': {
         target: 'http://localhost:5000',
         ws: true,

@@ -32,10 +32,11 @@ export default {
         user: this.create_user,
         password: sha256(this.create_password)
       }
-      console.log(data);
-      me.axios.post('/createUser', data).then((result)=>{
+      // console.log(data);
+      me.axios.post('/user/createUser', data).then((result)=>{
         if(result.data.response == 'ok') {
           me.result_text = 'succeed';
+          me.$router.push('/logincreate');
         } else {
           me.result_text = 'error';
         }
