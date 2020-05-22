@@ -3,7 +3,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+          <h4 class="modal-title" id="exampleModalLabel">{{ modal_title }}</h4>
           <button type="button" class="close" @click="closeDialog">
             <span>&times;</span>
           </button>
@@ -81,8 +81,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger">刪除</button>
-          <button type="button" class="btn btn-primary">儲存</button>
+          <button type="button" class="btn btn-danger" v-show="modal_title == 'Edit'">刪除</button>
+          <button type="button" class="btn btn-primary" @click="setData">確認</button>
         </div>
       </div>
     </div>
@@ -92,23 +92,54 @@
 <script>
 export default {
   name: 'toysLottery_modal',
-  props: ['data'],
+  props: ['modalData', 'title'],
   data () {
     return {
+      modal_title: '',
       edit_data: {
-        date: '',
-        time: '',
+        item: '',
+        date: {
+          year: '99',
+          month: '99',
+          day: '99'
+        },
+        time: {
+          hour: '99',
+          min: '99'
+        },
+        price: '',
+        isLottery: '1',
+        notify: '1',
+        remarks: '',
       },
       years: [],
       month: ['01','02','03','04','05','06','07','08','09','10','11','12'],
-      // hour: new Array(24),
-      // min: new Array(60),
     }
   },
   mounted() {
     this.getYears();
   },
   methods: {
+    setData() {
+      const me = this;
+      let obj = {};
+      obj = this.edit_data;
+
+      if(this.title == "Add") {
+        me.axios.post('/lotteryData', obj).then((result)=>{
+          if(result.data.response == 'ok') {
+            // me.resetData();
+            me.closeDialog();
+            this.$emit('setData');
+          }
+        });
+      } else {
+
+      }
+    },
+    closeDialog() {
+      this.$emit('closeModal');
+    },
     getYears() {
       let date = new Date();
       let currentYear = date.getFullYear();
@@ -116,13 +147,6 @@ export default {
         let year = parseInt(currentYear) + i;
         this.years.push(year);
       }
-    },
-    closeDialog() {
-      this.edit_data = {
-        date: '',
-        time: '',
-      };
-      this.$emit('closeModal');
     },
     addZero(number) {
       if (parseInt(number) < 10) {
@@ -148,8 +172,11 @@ export default {
     }
   },
   watch: {
-    data() {
-      this.edit_data = this.data;
+    modalData() {
+      this.edit_data = this.modalData;
+    },
+    title() {
+      this.modal_title = this.title;
     }
   },
   computed: {

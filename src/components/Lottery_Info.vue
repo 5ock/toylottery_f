@@ -1,6 +1,9 @@
 <template>
   <div class="toysLottery_add">
-    <h1 class="h2 mb-4">Lottery Info</h1>
+    <div class="lottery_info_header">
+      <h2 class=" mb-4">Lottery Info</h2>
+      <button type="button" class="btn btn-info" @click="openModal('Add')">新增</button>
+    </div>
     <!-- <div style="display:flex;flex-wrap: wrap;">
       <div class="card bg-light mb-3 mr-3" style="width:335px;height: 167px">
         <div class="card-header" style="padding: 5px 1.25rem; position:relative;">
@@ -112,9 +115,11 @@
     </div> -->
     
     <lotteryModal
-      v-show="modal_show"
-      :data="modal_editItem"
-      @closeModal="closeModal" />
+      v-show="modal_item.showModal"
+      :modalData="modal_item.data"
+      :title="modal_item.action"
+      @closeModal="closeModal"
+      @setData="getLotteryList" />
   </div>
 </template>
 
@@ -132,7 +137,11 @@ export default {
     return {
       a: true,
       lotteryCardList: [],
-      modal_editItem: {},
+      modal_item: {
+        showModal: false,
+        action: '', //Edit or Add
+        data: {},
+      },
       modal_show: false,
     }
   },
@@ -140,6 +149,9 @@ export default {
     this.getLotteryList();
   },
   methods: {
+    // flashData() {
+
+    // }
     addZero(number) {
       if (parseInt(number) < 10) {
         number = '0'+number;
@@ -154,18 +166,40 @@ export default {
         me.lotteryCardList = result.data;
       })
     },
+    openModal(action) {
+      this.modal_item.action = action;
+      this.modal_item.showModal = true;
+    },
     editItem(id) {
+      this.modal_item.action = 'Edit';
       for(let i=0; i<this.lotteryCardList.length; i++) {
         if(this.lotteryCardList[i]._id == id) {
-          this.modal_editItem = this.lotteryCardList[i];
-          this.modal_show = true;
+          this.modal_item.data = this.lotteryCardList[i];
           break;
         }
       }
+      this.modal_item.showModal = true;
     },
     closeModal() {
-      this.modal_editItem = {};
-      this.modal_show = false;
+      // reset modal_item.data
+      this.modal_item.data = {
+        item: '',
+        date: {
+          year: '99',
+          month: '99',
+          day: '99'
+        },
+        time: {
+          hour: '99',
+          min: '99'
+        },
+        price: '',
+        isLottery: '1',
+        notify: '1',
+        remarks: ''
+      };
+      // this.modal_item.action = '';
+      this.modal_item.showModal = false;
     }
   }
 }

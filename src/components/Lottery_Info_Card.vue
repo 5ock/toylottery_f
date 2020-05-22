@@ -39,11 +39,12 @@ export default {
     },
     calData() {
       const me = this;
+      this.lottery_data = [];
       for(let i=0; i<this.lotteryCardData.length; i++) {
         let obj = {};
         obj.item = this.lotteryCardData[i].item;
         obj.isLottery = this.lotteryCardData[i].isLottery == 1 ? "L" : "B";
-        obj.notify = this.lotteryCardData[i].notification == 1 ? true : false;
+        obj.notify = this.lotteryCardData[i].notify == 1 ? true : false;
         obj.date = this.lotteryCardData[i].date.year + "年" + this.lotteryCardData[i].date.month + "月" + this.lotteryCardData[i].date.day + "日";
         obj.price = this.lotteryCardData[i].price;
         obj.time = this.lotteryCardData[i].time.hour + ":" + this.lotteryCardData[i].time.min;

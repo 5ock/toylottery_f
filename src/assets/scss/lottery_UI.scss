@@ -23,6 +23,21 @@
   background-color: #17a2b8;
   color: #fff;
 }
+
+// lottery_infn_header
+.lottery_info_header {
+  display:flex;
+
+  h2 {
+    margin-right: 110px;
+  }
+  button {
+    max-width: 20%;
+    height: 40px;
+  }
+}
+
+
 .toysLottery_card {
   display:flex;
   flex-wrap: wrap;
