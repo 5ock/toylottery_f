@@ -36,7 +36,11 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow:ellipsis;
-    
+  }
+  .text-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
   }
   // card Item icon
   .icon-edit {
@@ -70,15 +74,17 @@
     text-align: center;
     vertical-align: middle;
     opacity: 0.7;
-  }
-  .icon-notify.On{
-    background: url('./assets/images/ic_notifications.png') no-repeat;
-  }
-  .icon-notify.Off{
-    background: url('./assets/images/ic_notifications_off.png') no-repeat;
+
+    &.On {
+      background: url('./assets/images/ic_notifications.png') no-repeat;  
+    }
+    &.Off {
+      background: url('./assets/images/ic_notifications_off.png') no-repeat;
+    }
   }
   // card text lottery
   .text-lottery {
+    cursor: default;
     display: inline-block;
     text-align:center;
     vertical-align: middle;
@@ -89,6 +95,34 @@
     color: red;
     font-family: 'Arial Black';
   }
+}
+// modal
+.lottery_modal {
+  overflow-x: auto;
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: $zindex-modal;
+
+  background-color: rgba($black, .6);
+  display: block;
+  width: 100%;
+  height: 200%;
+  overflow: hidden;
+  // Prevent Chrome on Windows from adding a focus outline. For details, see
+  // https://github.com/twbs/bootstrap/pull/10951.
+  outline: 0;
+  
+  // We deliberately don't use `-webkit-overflow-scrolling: touch;` due to a
+  // gnarly iOS Safari bug: https://bugs.webkit.org/show_bug.cgi?id=158342
+  // See also https://github.com/twbs/bootstrap/issues/17695
+
+  position: fixed;
+}
+
+.modal-dialog {
+  max-width: 530px;
 }
 @media (min-width: 768px) {
     .carzy_toggler {

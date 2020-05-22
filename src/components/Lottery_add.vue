@@ -24,7 +24,7 @@
           <div style="max-width: 150px;flex:1">
           <select class="custom-select" v-model="data_day">
             <option value="99">Day</option>
-            <option v-for="(item, index) in days" :value="index+1">{{ index+1 }}</option>
+            <option v-for="(item, index) in days" :value="item">{{ item }}</option>
           </select>
           </div>
         </div>
@@ -35,13 +35,13 @@
           <div style="max-width: 150px; flex:1; margin-right:20px">
           <select class="custom-select" v-model="data_hour">
             <option value="99">Hour</option>
-            <option v-for="(item, index) in hour" :value="index">{{ index }}</option>
+            <option v-for="(item, index) in hour" :value="item">{{ item }}</option>
           </select>
           </div>
           <div style="max-width: 150px;flex:1">
           <select class="custom-select" v-model="data_min">
             <option value="99">Min</option>
-            <option v-for="(item, index) in min" :value="index">{{ index }}</option>
+            <option v-for="(item, index) in min" :value="item">{{ item }}</option>
           </select>
           </div>
         </div>
@@ -94,9 +94,7 @@ export default {
       data_hour: '99',
       data_min: '99',
       years: [],
-      month: [1,2,3,4,5,6,7,8,9,10,11,12],
-      hour: new Array(24),
-      min: new Array(60),
+      month: ['01','02','03','04','05','06','07','08','09','10','11','12'],
     }
   },
   mounted() {
@@ -133,19 +131,16 @@ export default {
     },
     setData() {
       const me = this;
-      // if(me.data_month == '99' || me.data_month == '99' || me.data_day == '99' || me.data_min == '99' || me.data_hour == '99') {
-      //   alert('請輸入月, 日, 時, 分');
-      // }
       let obj = {
         item: this.data_item,
         date: {
           year: this.data_year,
-          month: this.addZero(me.data_month),
-          day: this.addZero(me.data_day),
+          month: this.data_month,
+          day: this.data_day,
         },
         time: {
-          hour: this.addZero(me.data_hour),
-          min: this.addZero(me.data_min)
+          hour: this.data_hour,
+          min: this.data_min
         },
         price: this.data_price,
         url: this.data_url,
@@ -160,17 +155,39 @@ export default {
           me.resetData();
         }
       });
+    },
+    calDay(num) {
+      let ary = [];
+      for(let i=1; i<=num; i++) {
+        ary.push(this.addZero(i));
+      }
+
+      return ary;
+    },
+    calTime(num) {
+      let ary = [];
+      for(let i=0; i<num; i++) {
+        ary.push(this.addZero(i));
+      }
+
+      return ary;
     }
   },
   computed: {
     days() {
-      if(this.data_month == '2') {
-        return new Array(28);
-      } else if(this.data_month == '4' || this.data_month == '6' || this.data_month == '9' || this.data_month == '12') {
-        return new Array(30);
+      if(this.data_month == '02') {
+        return this.calDay(28);
+      } else if(this.data_month == '04' || this.data_month == '06' || this.data_month == '09' || this.data_month == '12') {
+        return this.calDay(30);
       } else {
-        return new Array(31);
+        return this.calDay(31);
       }
+    },
+    hour() {
+      return this.calTime(24);
+    },
+    min() {
+      return this.calTime(60);
     }
   }
 }

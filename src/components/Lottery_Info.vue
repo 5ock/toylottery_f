@@ -21,38 +21,151 @@
       </div>
     </div> -->
 
-    <!-- <div class="toysLottery_card" v-for="(item, index) in lotteryCardList"> -->
-      <lotteryCard :lotteryCardData="lotteryCardList" :showEdit="true" />
-    <!-- </div> -->
+    <lotteryCard :lotteryCardData="lotteryCardList" :showEdit="true" @isClick="editItem" />
+
+    <!-- <div class="lottery_modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+            <button type="button" class="close">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group t-maxWidth">
+              <label>商品名稱 :</label>
+              <input type="text" class="form-control" placeholder="ex: headlockstudio" v-model="data_item">
+            </div>
+            <div class="form-group t-maxWidth">
+              <label>日期 :</label>
+              <div style="display:flex">
+                <div style="max-width: 150px; flex:1; margin-right:20px">
+                <select class="custom-select" v-model="data_year">
+                  <option value="99">Year</option>
+                  <option v-for="item in years" :value="item">{{ item }}</option>
+                </select>
+                </div>
+                <div style="max-width: 150px; flex:1; margin-right:20px">
+                  <select class="custom-select" v-model="data_month">
+                    <option value="99">Month</option>
+                    <option v-for="item in month" :value="item">{{ item }}</option>
+                  </select>
+                </div>
+                <div style="max-width: 150px;flex:1">
+                  <select class="custom-select" v-model="data_day">
+                    <option value="99">Day</option>
+                    <option v-for="(item, index) in days" :value="index+1">{{ index+1 }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group t-maxWidth">
+              <label>時間 :</label>
+              <div style="display:flex">
+                <div style="max-width: 150px; flex:1; margin-right:20px">
+                <select class="custom-select" v-model="data_hour">
+                  <option value="99">Hour</option>
+                  <option v-for="(item, index) in hour" :value="index">{{ index }}</option>
+                </select>
+                </div>
+                <div style="max-width: 150px;flex:1">
+                <select class="custom-select" v-model="data_min">
+                  <option value="99">Min</option>
+                  <option v-for="(item, index) in min" :value="index">{{ index }}</option>
+                </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group t-maxWidth">
+              <label>價格 :</label>
+              <input type="text" class="form-control" placeholder="ex: 2000台幣" v-model="data_price">
+            </div>
+            <div class="form-group t-maxWidth">
+              <label>網址 :</label>
+              <input type="text" class="form-control" v-model="data_url">
+            </div>
+            <div class="form-group t-maxWidth">
+              <label style="width:110px;">抽選 or 直購 :</label>
+              <label for="Lottery" class="radioStyle" :class="{ isSelect: data_isLottery==1 }">抽選</label>
+              <input id="Lottery" type="radio" value="1" v-model="data_isLottery" style="display:none">
+              <label for="purchase" class="radioStyle" :class="{ isSelect: data_isLottery==0 }">直購</label>
+              <input id="purchase" type="radio" value="0" v-model="data_isLottery" style="display:none">
+            </div>
+            <div class="form-group t-maxWidth">
+              <label style="width:110px;">是否通知 :</label>
+              <label for="Yes" class="radioStyle" :class="{ isSelect: data_notify=='1' }">要</label>
+              <input id="Yes" type="radio" value="1" v-model="data_notify" style="display:none">
+              <label for="No" class="radioStyle" :class="{ isSelect: data_notify=='0' }">不要</label>
+              <input id="No" type="radio" value="0" v-model="data_notify" style="display:none">
+            </div>
+            <div class="form-group t-maxWidth">
+              <label for="exampleFormControlTextarea1">備註:</label>
+              <textarea class="form-control" rows="3" v-model="data_remarks" style="height:40px"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">儲存</button>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    
+    <lotteryModal
+      v-show="modal_show"
+      :data="modal_editItem"
+      @closeModal="closeModal" />
   </div>
 </template>
 
 <script>
-import lotteryCard from './Lottery_InfoCard';
+import lotteryCard from './Lottery_Info_Card';
+import lotteryModal from './Lottery_Info_Modal';
 
 export default {
   components: {
     lotteryCard,
+    lotteryModal
   },
   name: 'toysLottery_add',
   data () {
     return {
       a: true,
       lotteryCardList: [],
+      modal_editItem: {},
+      modal_show: false,
     }
   },
   mounted() {
     this.getLotteryList();
   },
   methods: {
+    addZero(number) {
+      if (parseInt(number) < 10) {
+        number = '0'+number;
+      }
+      return String(number);
+    },
     getLotteryList() {
       const me = this;
       me.axios.get('/lotteryData').then((result) => {
         // card 順序依到期日期, 可編輯刪除
         // item, data, time, price, url, islottery, notification, remark
         me.lotteryCardList = result.data;
-        // console.log(result.data);
       })
+    },
+    editItem(id) {
+      for(let i=0; i<this.lotteryCardList.length; i++) {
+        if(this.lotteryCardList[i]._id == id) {
+          this.modal_editItem = this.lotteryCardList[i];
+          this.modal_show = true;
+          break;
+        }
+      }
+    },
+    closeModal() {
+      this.modal_editItem = {};
+      this.modal_show = false;
     }
   }
 }
