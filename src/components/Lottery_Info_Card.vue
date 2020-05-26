@@ -2,8 +2,9 @@
   <div class="toysLottery_card">
     <div class="card bg-light mb-3 mr-3" style="width:335px;height: 167px;"
       v-for="(obj,index) in lottery_data" :key="index">
-      <div class="card-header" style="padding: 5px 1.25rem; position:relative;">
+      <div class="card-header ly-card-header" :class="{'ly-notExpire': !obj.isExpire}">
         <div class="card-header-text">{{ obj.item }}</div>
+        <div v-if="showEdit" class="icon-delete" @click="deleteItem(obj)"></div>
         <div v-if="showEdit" class="icon-edit" @click="editItem(obj._id)"></div>
       </div>
       <div class="card-body" style="padding: 5px 1.25rem; position:relative;">
@@ -18,6 +19,7 @@
         <div class="card-text text-ellipsis" :title="obj.remarks">備註 : {{ obj.remarks }}</div>
       </div>
     </div>
+    <div class="loader"></div>
   </div>
 </template>
 
@@ -28,6 +30,7 @@ export default {
   data () {
     return {
       a: true,
+      // isExpire: false,
       lottery_data: [],
     }
   },
@@ -36,6 +39,34 @@ export default {
   methods: {
     switchPage(url) {
       window.open(url);
+    },
+    addZero(number) {
+      if (parseInt(number) < 10) {
+        number = '0'+number;
+      }
+      return String(number);
+    },
+    checkExpire(date, time) {
+      let objDate = new Date();
+      let year = objDate.getFullYear();
+      let month = objDate.getMonth() + 1;
+      let day = objDate.getDate();
+      let hour = objDate.getHours();
+      let min = objDate.getMinutes();
+      let currentDate = year + this.addZero(month) + this.addZero(day);
+      let currentTime = this.addZero(hour) + this.addZero(min);
+
+      let data_month = date.year + date.month + date.day;
+      let data_time = time.hour + time.min;
+      if(data_month > currentDate) {
+        return false
+      } else if(data_month < currentDate) {
+        return true
+      } else if(data_time > currentTime) {
+        return false;
+      } else {
+        return true;
+      }
     },
     calData() {
       const me = this;
@@ -51,12 +82,16 @@ export default {
         obj.url = this.lotteryCardData[i].url;
         obj.remarks = this.lotteryCardData[i].remarks;
         obj._id = this.lotteryCardData[i]._id;
+        obj.isExpire = this.checkExpire(this.lotteryCardData[i].date, this.lotteryCardData[i].time);
 
         this.lottery_data.push(obj);
       }
     },
     editItem(id) {
       this.$emit('isClick', id);
+    },
+    deleteItem(obj) {
+      this.$emit('isDelete', obj);
     }
   },
   watch: {

@@ -18,7 +18,7 @@
             <div style="display:flex">
               <div style="max-width: 150px; flex:1; margin-right:20px">
               <select class="custom-select" v-model="edit_data.date.year">
-                <option value="99">Year</option>
+                <option value="9999">Year</option>
                 <option v-for="item in years" :value="item">{{ item }}</option>
               </select>
               </div>
@@ -81,7 +81,6 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" v-show="modal_title == 'Edit'">刪除</button>
           <button type="button" class="btn btn-primary" @click="setData">確認</button>
         </div>
       </div>
@@ -99,7 +98,7 @@ export default {
       edit_data: {
         item: '',
         date: {
-          year: '99',
+          year: '9999',
           month: '99',
           day: '99'
         },
@@ -128,13 +127,17 @@ export default {
       if(this.title == "Add") {
         me.axios.post('/lotteryData', obj).then((result)=>{
           if(result.data.response == 'ok') {
-            // me.resetData();
             me.closeDialog();
             this.$emit('setData');
           }
         });
       } else {
-
+        me.axios.put('/lotteryData', obj).then((result)=>{
+          if(result.data.response == 'ok') {
+            me.closeDialog();
+            this.$emit('setData');
+          }
+        });
       }
     },
     closeDialog() {

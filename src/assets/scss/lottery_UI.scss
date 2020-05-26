@@ -7,6 +7,15 @@
 .l-w {
     width: 110px;
 }
+.ly-card-header {
+  padding: 5px 1.25rem;
+  position: relative;
+}
+.ly-notExpire {
+  color: white;  
+  background-color: #17a2b8 !important;
+}
+// bg-info
 .radioStyle {
   border-radius: 10px;
   display: inline-block;
@@ -65,6 +74,17 @@
     width:24px;
     height: 24px;
     background: url('./assets/images/ic_edit.png') no-repeat;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .icon-delete {
+    position: absolute;
+    top:6px;
+    right:36px;
+    width: 24px;
+    height: 24px;
+    background: url('./assets/images/ic_delete.png') no-repeat;
     &:hover {
       cursor: pointer;
     }

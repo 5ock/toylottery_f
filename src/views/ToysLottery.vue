@@ -18,10 +18,7 @@
       <div class="navbar-collapse carzy_navbar" v-show="isShow_m_navbar">
         <ul class="navbar-nav mt-2">
           <li class="nav-item" style="padding-left:20px;">
-              <router-link class="nav-link active" to="/lottery/add" @click.native='isShow_m_navbar = !isShow_m_navbar;'>Add Lotterys</router-link>
-          </li>
-          <li class="nav-item" style="padding-left:20px;">
-              <router-link class="nav-link active" to="/lottery" @click.native='isShow_m_navbar = !isShow_m_navbar;'>Information</router-link>
+              <router-link class="nav-link active" to="/lottery" @click.native='isShow_m_navbar = !isShow_m_navbar;'>Edit Lottery</router-link>
           </li>
         </ul>
       </div>
@@ -32,12 +29,9 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <!-- <a class="nav-link active" href="#" @click="changePage('/lottery/add')">Add Lotterys</a> -->
-                <router-link class="nav-link active" to="/lottery/add">Add Lotterys</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link active" to="/lottery">Information</router-link>
-                <!-- <a class="nav-link" href="#" @click="changePage('/lottery')">Information</a> -->
+                <router-link class="nav-link active" to="/lottery">Edit Lottery</router-link>
               </li>
             </ul>
           </div>
@@ -65,7 +59,7 @@ export default {
       const me = this;
       
       me.axios.post('/user/logout').then((result) => {
-        me.$router.push('/login');
+        me.$router.push('/home');
       })
     }
   }
