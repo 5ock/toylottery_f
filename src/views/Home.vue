@@ -13,8 +13,10 @@
     <div class="container-fluid">
       <main role="main" class="main">          
         <!-- lottery info card -->
-        <lotteryCard
+        <div style="max-width: 1404px;margin:0 auto;">
+          <lotteryCard
           :lotteryCardData="lotteryCardList" />
+        </div>
       </main>
     </div>
 
