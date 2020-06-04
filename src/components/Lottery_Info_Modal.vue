@@ -179,7 +179,11 @@ export default {
       this.edit_data = this.modalData;
     },
     title() {
-      this.modal_title = this.title;
+      if(this.title == 'Add') {
+        this.modal_title = '新增';
+      } else {
+        this.modal_title = '編輯';
+      }
     }
   },
   computed: {
