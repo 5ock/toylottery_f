@@ -130,6 +130,21 @@
     color: red;
     font-family: 'Arial Black';
   }
+  .lottery_expired {
+    color: #999;
+    font-size: 50px;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    line-height: 50px;
+    border: 5px solid #ccc;
+
+    -moz-transform:rotate(-20deg);
+    -webkit-transform:rotate(-20deg);
+    -o-transform:rotate(-20deg);
+    -ms-transform:rotate(-20deg);
+    transform:rotate(-20deg);
+  }
 }
 // modal
 .lottery_modal {

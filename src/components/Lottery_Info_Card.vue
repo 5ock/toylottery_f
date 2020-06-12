@@ -18,6 +18,7 @@
         <div class="card-text">連結 : <a @click.prevent="switchPage(obj.url)" class="lottery-link">Click Here</a></div>
         <div class="card-text text-ellipsis" :title="obj.remarks">備註 : {{ obj.remarks }}</div>
       </div>
+    <div v-show="obj.isExpire" class="lottery_expired">Expired</div>
     </div>
     <div class="loader"></div>
   </div>
