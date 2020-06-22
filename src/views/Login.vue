@@ -43,6 +43,7 @@ export default {
           sessionStorage.role = 'admin';
           me.$router.push('/lottery');
         } else {
+          me.$refs.lyPopView.hide();
           alert('error');
         }
       });
